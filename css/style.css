@@ -1,153 +1,96 @@
-/* RESET */
-* {
-  box-sizing: border-box;
+body.night {
   margin: 0;
-  padding: 0;
-  font-family: "Segoe UI", sans-serif;
+  height: 100vh;
+  background: radial-gradient(#0b1633, #020617);
+  color: white;
+  font-family: system-ui, sans-serif;
 }
 
-/* BODY */
-body {
-  background: radial-gradient(circle at top, #0b1c3d, #050b1a);
-  min-height: 100vh;
-  overflow-x: hidden;
-  color: #fff;
-}
-
-/* NIGHT STARS */
-#night-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -3;
-}
-
-/* SAKURA */
-#sakura-container {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -2;
-}
-
-.sakura {
-  position: absolute;
-  top: -10px;
-  width: 12px;
-  height: 12px;
-  background: rgba(255, 192, 203, 0.85);
-  border-radius: 50%;
-  animation: fall linear infinite;
-}
-
-@keyframes fall {
-  to {
-    transform: translateY(110vh) translateX(40px);
-    opacity: 0;
-  }
-}
-
-/* QUIZ WRAPPER */
-.quiz-wrapper {
-  min-height: 100vh;
+.center {
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 40px 16px;
+  align-items: center;
+  height: 100vh;
 }
 
-/* QUIZ CARD */
-.quiz-card {
-  width: 100%;
-  max-width: 420px;
-  background: rgba(0, 0, 0, 0.55);
+.card, .quiz-card {
+  background: rgba(0,0,0,0.6);
+  padding: 30px;
   border-radius: 20px;
-  padding: 24px;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  width: 360px;
 }
 
-/* GIF */
-.question-gif {
-  width: 140px;
-  max-width: 100%;
-  margin: 0 auto 16px;
-  display: block;
-}
-
-/* TEXT */
-h2 {
-  font-size: 20px;
+.gif {
+  width: 120px;
   margin-bottom: 10px;
 }
 
-.subtitle {
-  font-size: 13px;
-  opacity: 0.8;
-  margin-bottom: 14px;
-}
-
-/* TEXTAREA */
 textarea {
   width: 100%;
-  min-height: 90px;
+  height: 90px;
   border-radius: 12px;
+  padding: 10px;
   border: none;
-  padding: 12px;
   resize: none;
-  font-size: 14px;
 }
 
-/* COUNTER */
-#charCount {
-  font-size: 12px;
+.counter {
+  margin: 8px 0;
   opacity: 0.8;
-  margin-top: 6px;
 }
 
-/* BUTTONS */
 .btn-primary {
-  margin-top: 14px;
-  padding: 10px 20px;
-  background: #ff5a7a;
+  background: #ff4d6d;
   border: none;
-  border-radius: 999px;
+  padding: 12px 22px;
+  border-radius: 20px;
   color: white;
-  font-size: 14px;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 .btn-primary:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
-/* OPTIONS */
+.btn-secondary {
+  background: #444;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 20px;
+  color: white;
+  margin-left: 10px;
+}
+
 .option {
-  background: rgba(255,255,255,0.08);
-  padding: 12px;
-  border-radius: 12px;
+  width: 100%;
   margin-top: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  background: #222;
+  color: white;
   cursor: pointer;
 }
 
-.option:hover {
-  background: rgba(255,255,255,0.18);
-}
-
-/* MESSAGES */
-.error {
-  color: #ff9aa2;
-  font-size: 13px;
-  margin-top: 10px;
-}
-
-.reward {
-  color: #7dffb3;
-  font-size: 14px;
-  margin-top: 12px;
-}
-
-#nextBtn {
+.hidden {
   display: none;
-  margin-top: 14px;
+}
+
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-box {
+  background: #111;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
 }
