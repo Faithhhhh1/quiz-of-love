@@ -1,58 +1,107 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: #fff;
-}
-
-.center {
-  text-align: center;
-  padding-top: 100px;
+  background: radial-gradient(circle at top, #0b132b, #020617);
+  font-family: "Segoe UI", sans-serif;
+  color: white;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 .card {
-  width: 90%;
+  position: relative;
+  z-index: 2;
   max-width: 500px;
-  margin: 60px auto;
-  padding: 20px;
-  background: #020617;
-  border-radius: 10px;
+  margin: 80px auto;
+  background: rgba(0,0,0,0.6);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(255,255,255,0.05);
 }
 
+/* GIF */
+#gifBox {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+#gifBox img {
+  max-width: 130px;
+  border-radius: 14px;
+  animation: floatGif 4s ease-in-out infinite;
+}
+
+@keyframes floatGif {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+/* TEXTAREA */
 textarea {
   width: 100%;
   padding: 10px;
+  border-radius: 10px;
+  resize: none;
+  font-size: 15px;
 }
 
-button, .btn {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background: #e11d48;
-  color: white;
+button {
+  background: #ff4d6d;
   border: none;
-  border-radius: 6px;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 10px;
+  margin-top: 10px;
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.option {
+  background: rgba(255,255,255,0.08);
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background: rgba(255,255,255,0.15);
+}
+
 .error {
-  color: #f87171;
+  color: #ff6b6b;
   margin-top: 10px;
 }
 
 .reward {
-  margin-top: 15px;
-  color: #22c55e;
+  color: #4ade80;
+  margin-top: 10px;
 }
 
-.option {
-  display: block;
-  margin: 8px 0;
-  padding: 10px;
-  background: #1e293b;
-  border-radius: 6px;
-  cursor: pointer;
+/* Sakura */
+#sakura-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.hint {
-  font-size: 12px;
+.sakura {
+  position: absolute;
+  top: -10%;
+  width: 20px;
+  height: 20px;
+  background-image: url("../assets/10344274144504984.gif");
+  background-size: cover;
   opacity: 0.7;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(120vh) translateX(200px) rotate(360deg);
+  }
 }
