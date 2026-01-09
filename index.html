@@ -1,45 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>For You ❤️</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css">
 </head>
+<body class="night">
 
-<body>
-  <!-- Hidden YouTube Player -->
-  <div id="yt-player" style="display:none;"></div>
-
-  <div class="center">
-    <div class="card">
-      <h1>Hi, my love ❤️</h1>
-      <p>
-        This is not a quiz.<br />
-        This is from my heart.
-      </p>
-
-      <button id="startBtn" class="btn-primary">
-        Start
-      </button>
-    </div>
+<div class="center">
+  <div class="card">
+    <h1>Hi, my love ❤️</h1>
+    <p>This is not a quiz.<br>This is from my heart.</p>
+    <button class="btn-primary" onclick="location.href='quiz.html'">
+      Start
+    </button>
   </div>
+</div>
 
-  <!-- Music script -->
-  <script src="js/music.js"></script>
-
-  <!-- Start button logic -->
- <script src="js/music.js"></script>
-
-<script>
-  const startBtn = document.getElementById("startBtn");
-
-  startBtn.addEventListener("click", () => {
-    enableMusic(); // now EXISTS ✅
-
-    setTimeout(() => {
-      window.location.href = "quiz.html";
-    }, 300);
-  });
-</script>
 </body>
 </html>
