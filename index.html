@@ -4,9 +4,20 @@
   <title>For You ❤️</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="center">
-  <h1>Hi, my love ❤️</h1>
-  <p>This is not a quiz.<br>This is something from my heart.</p>
-  <a href="quiz.html" class="btn">Start</a>
+<body>
+<div id="yt-player"></div>
+
+<div class="center">
+  <div class="card">
+    <h1>Hi, my love ❤️</h1>
+    <p>This is not a quiz.<br>This is from my heart.</p>
+
+    <button class="btn-primary" onclick="enableMusic(); location.href='quiz.html'">
+      Start
+    </button>
+  </div>
+</div>
+
+<script src="js/music.js"></script>
 </body>
 </html>
