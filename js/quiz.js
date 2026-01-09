@@ -1,18 +1,10 @@
-/********************************
- * QUESTIONS
- ********************************/
+/******** QUESTIONS ********/
 const questions = [
   {
     text: "What was the first thing about me that made you feel safe talking to me?",
     type: "text",
     reward: "Reading that made me smile ❤️",
-    keywords: ["safe", "listen", "trust", "comfort", "calm"]
-  },
-  {
-    text: "What time of day do you feel most connected to me?",
-    type: "text",
-    reward: "I love knowing that 🥰",
-    keywords: ["night", "morning", "late", "time", "talk"]
+    keywords: ["safe", "trust", "listen"]
   },
   {
     text: "What’s your favorite version of me?",
@@ -27,173 +19,109 @@ const questions = [
   }
 ];
 
-/********************************
- * STATE
- ********************************/
+/******** GIFS ********/
+const gifs = [
+  "assets/10344274144504984.gif",
+  "assets/143552925555589073.gif",
+  "assets/27021666509846925.gif",
+  "assets/35395547060768152.gif",
+  "assets/3588874692373379.gif",
+  "assets/461619030576156033.gif",
+  "assets/58406126413699972.gif",
+  "assets/66217057016734145.gif",
+  "assets/7107311904187212.gif",
+  "assets/83738874316669407.gif"
+];
+
 let index = 0;
 
-/********************************
- * SAFE DOM ACCESS
- ********************************/
-function el(id) {
-  return document.getElementById(id);
+/******** MUSIC ********/
+function playYouTubeMusic() {
+  const iframe = document.getElementById("ytPlayer");
+  if (!iframe) return;
+
+  iframe.contentWindow.postMessage(
+    JSON.stringify({ event: "command", func: "playVideo", args: [] }),
+    "*"
+  );
+  iframe.contentWindow.postMessage(
+    JSON.stringify({ event: "command", func: "unMute", args: [] }),
+    "*"
+  );
 }
 
-/********************************
- * VALIDATION DATA
- ********************************/
-const blocked = [
-  "pta nhi", "pata nahi", "idk", "i don't know",
-  "yaad nahi", "mmmm", "hmm", "nothing",
-  "no idea", "dont know", "don't know"
-];
+/******** GIF ********/
+function setRandomGif() {
+  const img = document.getElementById("questionGif");
+  if (!img) return;
 
-const cheatWords = [
-  "ok", "okay", "hogya", "ho gaya",
-  "done", "complete", "completed", "finish", "15"
-];
-
-const hindiRegex = /[\u0900-\u097F]/;
-
-const emotionalWords = [
-  "love", "loved", "loving",
-  "favorite", "special", "important",
-  "care", "caring", "feel",
-  "mine", "heart", "safe"
-];
-
-/********************************
- * HELPER CHECKS
- ********************************/
-function hasEnoughWords(text) {
-  return text
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(w => w.length >= 3).length >= 3;
+  img.style.opacity = 0;
+  setTimeout(() => {
+    img.src = gifs[Math.floor(Math.random() * gifs.length)];
+    img.style.opacity = 1;
+  }, 200);
 }
 
-function looksLikeGibberish(text) {
-  const words = text.split(/\s+/);
-  const shortWords = words.filter(w => w.length <= 2).length;
-  const upperCount = text.replace(/[^A-Z]/g, "").length;
+/******** SAKURA ********/
+function createSakura() {
+  const container = document.getElementById("sakura-container");
+  if (!container) return;
 
-  if (shortWords > words.length / 2) return true;
-  if (upperCount > text.length * 0.4) return true;
+  const petal = document.createElement("div");
+  petal.className = "sakura";
+  petal.style.left = Math.random() * 100 + "vw";
+  petal.style.animationDuration = 8 + Math.random() * 6 + "s";
+  container.appendChild(petal);
 
-  return false;
+  setTimeout(() => petal.remove(), 15000);
 }
+setInterval(createSakura, 700);
 
-function containsCheatWords(text) {
-  const lower = text.toLowerCase();
-  return cheatWords.some(w => lower.includes(` ${w}`));
-}
-
-function isRelatedToQuestion(answer, keywords) {
-  if (!keywords || keywords.length === 0) return true;
-  const lower = answer.toLowerCase();
-  return keywords.some(k => lower.includes(k));
-}
-
-function hasEmotionalContent(text) {
-  const lower = text.toLowerCase();
-  return emotionalWords.some(word => lower.includes(word));
-}
-
-/********************************
- * UI HELPERS
- ********************************/
-function showError(msg) {
-  el("error").innerText = msg;
-}
-
-function showReward(text) {
-  el("reward").innerText = text;
-  el("nextBtn").style.display = "block";
-}
-
-/********************************
- * LOAD QUESTION
- ********************************/
+/******** LOAD ********/
 function loadQuestion() {
   const q = questions[index];
-  if (!q) return;
+  document.getElementById("question").innerText = q.text;
+  document.getElementById("reward").innerText = "";
+  document.getElementById("error").innerText = "";
+  document.getElementById("nextBtn").style.display = "none";
+  document.getElementById("optionsBox").innerHTML = "";
+  document.getElementById("textBox").style.display = "none";
 
-  el("question").innerText = q.text;
-  el("reward").innerText = "";
-  el("error").innerText = "";
-  el("nextBtn").style.display = "none";
-  el("textBox").style.display = "none";
-  el("optionsBox").innerHTML = "";
+  setRandomGif();
 
   if (q.type === "text") {
-    el("answer").value = "";
-    el("charCount").innerText = "0";
-    el("submitBtn").disabled = true;
-    el("textBox").style.display = "block";
+    document.getElementById("answer").value = "";
+    document.getElementById("charCount").innerText = "0";
+    document.getElementById("submitBtn").disabled = true;
+    document.getElementById("textBox").style.display = "block";
   } else {
     q.options.forEach(opt => {
       const div = document.createElement("div");
       div.className = "option";
       div.innerText = opt;
-      div.onclick = () => showReward(q.reward);
-      el("optionsBox").appendChild(div);
+      div.onclick = () => {
+        playYouTubeMusic();
+        document.getElementById("reward").innerText = q.reward;
+        document.getElementById("nextBtn").style.display = "block";
+      };
+      document.getElementById("optionsBox").appendChild(div);
     });
   }
 }
 
-/********************************
- * CHARACTER COUNTER (15)
- ********************************/
 function updateCounter() {
-  const count = el("answer").value.length;
-  el("charCount").innerText = count;
-  el("submitBtn").disabled = count < 15;
+  const count = document.getElementById("answer").value.length;
+  document.getElementById("charCount").innerText = count;
+  document.getElementById("submitBtn").disabled = count < 15;
 }
 
-/********************************
- * SUBMIT TEXT ANSWER
- ********************************/
 function submitText() {
-  const q = questions[index];
-  const answer = el("answer").value.trim();
-  const lower = answer.toLowerCase();
-
-  if (answer.length < 15)
-    return showError("Please write at least 15 characters 🙂");
-
-  if (hindiRegex.test(answer))
-    return showError("Please write in English letters only 🙂");
-
-  for (let w of blocked) {
-    if (lower.includes(w))
-      return showError("Please write a real answer from your heart ❤️");
-  }
-
-  if (containsCheatWords(answer))
-    return showError("Please don’t use shortcuts 😊");
-
-  if (!hasEnoughWords(answer))
-    return showError("Please write at least 3 meaningful words 💕");
-
-  if (looksLikeGibberish(answer))
-    return showError("That doesn’t look like a real sentence 🙂");
-
-  // 🌟 Emotional answers auto-pass relevance
-  if (
-    !hasEmotionalContent(answer) &&
-    !isRelatedToQuestion(answer, q.keywords)
-  ) {
-    return showError("That’s sweet ❤️ Can you tell me a little more?");
-  }
-
-  // ✅ VALID ANSWER
-  localStorage.setItem(`answer_${index}`, answer);
-  showReward(q.reward);
+  playYouTubeMusic();
+  document.getElementById("reward").innerText =
+    questions[index].reward;
+  document.getElementById("nextBtn").style.display = "block";
 }
 
-/********************************
- * NEXT QUESTION
- ********************************/
 function nextQuestion() {
   index++;
   if (index >= questions.length) {
@@ -203,7 +131,4 @@ function nextQuestion() {
   }
 }
 
-/********************************
- * START
- ********************************/
 document.addEventListener("DOMContentLoaded", loadQuestion);
