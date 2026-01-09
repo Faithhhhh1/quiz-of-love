@@ -1,28 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>One Last Question</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-
-<div id="yt-player"></div>
+<body class="night">
 
 <div class="center">
   <div class="card">
     <h1>I Love You ❤️</h1>
     <p>Will you be mine forever?</p>
 
-    <button class="btn-primary" onclick="location.href='yes.html'">
-      Yes, obviously
-    </button>
-
-    <button class="btn-secondary" onclick="alert('How dare you say no 😡 I am angry now!')">
-      No
-    </button>
+    <div class="buttons">
+      <button class="btn-primary" onclick="yes()">Yes, obviously</button>
+      <button class="btn-secondary" onclick="no()">No</button>
+    </div>
   </div>
 </div>
 
-<script src="js/music.js"></script>
+<div id="popup" class="popup">
+  <div class="popup-box">
+    <p>How dare you say no 😡<br>I am angry now!</p>
+    <button class="btn-primary" onclick="closePopup()">Okay sorry 🥺</button>
+  </div>
+</div>
+
+<script>
+  function yes() {
+    window.location.href = "yes.html";
+  }
+
+  function no() {
+    document.getElementById("popup").style.display = "flex";
+  }
+
+  function closePopup() {
+    document.getElementById("popup").style.display = "none";
+  }
+</script>
+
 </body>
 </html>
