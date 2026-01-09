@@ -1,158 +1,153 @@
 /* RESET */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
-/* BODY + NIGHT SKY */
+/* BODY */
 body {
+  background: radial-gradient(circle at top, #0b1c3d, #050b1a);
   min-height: 100vh;
-  background: radial-gradient(ellipse at bottom, #0b1d3a 0%, #020617 100%);
-  overflow: hidden;
+  overflow-x: hidden;
   color: #fff;
 }
 
-/* CENTER WRAPPER */
-.center {
-  width: 100%;
+/* NIGHT STARS */
+#night-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+}
+
+/* SAKURA */
+#sakura-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+}
+
+.sakura {
+  position: absolute;
+  top: -10px;
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 192, 203, 0.85);
+  border-radius: 50%;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) translateX(40px);
+    opacity: 0;
+  }
+}
+
+/* QUIZ WRAPPER */
+.quiz-wrapper {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 5;
+  padding: 40px 16px;
 }
 
-/* CARD */
-.card {
-  width: 420px;
-  max-width: 92%;
-  background: rgba(0, 0, 0, 0.75);
+/* QUIZ CARD */
+.quiz-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(0, 0, 0, 0.55);
   border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+  padding: 24px;
   text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
 }
 
 /* GIF */
-.card img {
-  width: 130px;
-  margin-bottom: 15px;
+.question-gif {
+  width: 140px;
+  max-width: 100%;
+  margin: 0 auto 16px;
+  display: block;
 }
 
 /* TEXT */
-.card h2 {
-  font-size: 22px;
+h2 {
+  font-size: 20px;
   margin-bottom: 10px;
 }
 
-.card p {
-  font-size: 14px;
-  opacity: 0.85;
-  margin-bottom: 15px;
+.subtitle {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-bottom: 14px;
 }
 
 /* TEXTAREA */
 textarea {
   width: 100%;
-  height: 90px;
+  min-height: 90px;
   border-radius: 12px;
   border: none;
   padding: 12px;
-  font-size: 14px;
-  outline: none;
   resize: none;
+  font-size: 14px;
 }
 
 /* COUNTER */
-.counter {
-  font-size: 13px;
-  margin-top: 8px;
+#charCount {
+  font-size: 12px;
   opacity: 0.8;
+  margin-top: 6px;
 }
 
 /* BUTTONS */
-button {
-  margin-top: 15px;
-  padding: 10px 22px;
-  border-radius: 20px;
+.btn-primary {
+  margin-top: 14px;
+  padding: 10px 20px;
+  background: #ff5a7a;
   border: none;
-  cursor: pointer;
+  border-radius: 999px;
+  color: white;
   font-size: 14px;
-  background: #ff4d6d;
-  color: #fff;
+  cursor: pointer;
 }
 
-button:disabled {
+.btn-primary:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
 /* OPTIONS */
 .option {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255,255,255,0.08);
   padding: 12px;
   border-radius: 12px;
-  margin: 8px 0;
+  margin-top: 10px;
   cursor: pointer;
 }
 
 .option:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255,255,255,0.18);
 }
 
-/* 🌌 STARS */
-.stars, .stars2, .stars3 {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  background: transparent;
-  box-shadow: 
-    200px 300px white, 400px 600px white, 800px 200px white,
-    1200px 900px white, 1600px 400px white, 900px 700px white;
-  animation: moveStars 50s linear infinite;
+/* MESSAGES */
+.error {
+  color: #ff9aa2;
+  font-size: 13px;
+  margin-top: 10px;
 }
 
-.stars2 {
-  animation-duration: 100s;
-  opacity: 0.5;
+.reward {
+  color: #7dffb3;
+  font-size: 14px;
+  margin-top: 12px;
 }
 
-.stars3 {
-  animation-duration: 150s;
-  opacity: 0.3;
-}
-
-@keyframes moveStars {
-  from { transform: translateY(0); }
-  to { transform: translateY(-2000px); }
-}
-
-/* Sakura petals */
-.sakura {
-  position: fixed;
-  top: -10%;
-  width: 12px;
-  height: 12px;
-  background: radial-gradient(circle at 30% 30%, #ffd6e8, #f4a9c3);
-  border-radius: 60% 40% 60% 40%;
-  opacity: 0.8;
-  animation: fall linear infinite, sway ease-in-out infinite;
-}
-
-@keyframes fall {
-  0% {
-    transform: translateY(-10vh) rotate(0deg);
-  }
-  100% {
-    transform: translateY(110vh) rotate(360deg);
-  }
-}
-
-@keyframes sway {
-  0% { margin-left: 0; }
-  50% { margin-left: 40px; }
-  100% { margin-left: 0; }
+#nextBtn {
+  display: none;
+  margin-top: 14px;
 }
