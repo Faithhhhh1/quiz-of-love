@@ -6,13 +6,13 @@ const questions = [
     text: "What was the first thing about me that made you feel safe talking to me?",
     type: "text",
     reward: "Reading that made me smile ❤️",
-    keywords: ["safe", "listen", "trust", "comfort", "calm", "favorite"]
+    keywords: ["safe", "listen", "trust", "comfort", "calm"]
   },
   {
     text: "What time of day do you feel most connected to me?",
     type: "text",
     reward: "I love knowing that 🥰",
-    keywords: ["night", "morning", "late", "time", "talk", "connected"]
+    keywords: ["night", "morning", "late", "time", "talk"]
   },
   {
     text: "What’s your favorite version of me?",
@@ -25,7 +25,6 @@ const questions = [
     ],
     reward: "I love that version too 💖"
   }
-  // 👉 add more questions below
 ];
 
 /********************************
@@ -56,6 +55,13 @@ const cheatWords = [
 
 const hindiRegex = /[\u0900-\u097F]/;
 
+const emotionalWords = [
+  "love", "loved", "loving",
+  "favorite", "special", "important",
+  "care", "caring", "feel",
+  "mine", "heart", "safe"
+];
+
 /********************************
  * HELPER CHECKS
  ********************************/
@@ -64,10 +70,6 @@ function hasEnoughWords(text) {
     .toLowerCase()
     .split(/\s+/)
     .filter(w => w.length >= 3).length >= 3;
-}
-
-function hasSentenceFlow(text) {
-  return text.trim().split(/\s+/).length >= 4;
 }
 
 function looksLikeGibberish(text) {
@@ -88,27 +90,23 @@ function containsCheatWords(text) {
 
 function isRelatedToQuestion(answer, keywords) {
   if (!keywords || keywords.length === 0) return true;
-
   const lower = answer.toLowerCase();
-  let matches = 0;
+  return keywords.some(k => lower.includes(k));
+}
 
-  for (let key of keywords) {
-    if (lower.includes(key)) matches++;
-  }
-
-  return matches >= 1; // very gentle relevance
+function hasEmotionalContent(text) {
+  const lower = text.toLowerCase();
+  return emotionalWords.some(word => lower.includes(word));
 }
 
 /********************************
  * UI HELPERS
  ********************************/
 function showError(msg) {
-  if (!el("error")) return;
   el("error").innerText = msg;
 }
 
 function showReward(text) {
-  if (!el("reward")) return;
   el("reward").innerText = text;
   el("nextBtn").style.display = "block";
 }
@@ -118,7 +116,7 @@ function showReward(text) {
  ********************************/
 function loadQuestion() {
   const q = questions[index];
-  if (!q || !el("question")) return;
+  if (!q) return;
 
   el("question").innerText = q.text;
   el("reward").innerText = "";
@@ -144,10 +142,9 @@ function loadQuestion() {
 }
 
 /********************************
- * CHARACTER COUNTER (15 chars)
+ * CHARACTER COUNTER (15)
  ********************************/
 function updateCounter() {
-  if (!el("answer")) return;
   const count = el("answer").value.length;
   el("charCount").innerText = count;
   el("submitBtn").disabled = count < 15;
@@ -181,7 +178,11 @@ function submitText() {
   if (looksLikeGibberish(answer))
     return showError("That doesn’t look like a real sentence 🙂");
 
-  if (!isRelatedToQuestion(answer, q.keywords)) {
+  // 🌟 Emotional answers auto-pass relevance
+  if (
+    !hasEmotionalContent(answer) &&
+    !isRelatedToQuestion(answer, q.keywords)
+  ) {
     return showError("That’s sweet ❤️ Can you tell me a little more?");
   }
 
@@ -203,6 +204,6 @@ function nextQuestion() {
 }
 
 /********************************
- * START AFTER DOM READY
+ * START
  ********************************/
 document.addEventListener("DOMContentLoaded", loadQuestion);
