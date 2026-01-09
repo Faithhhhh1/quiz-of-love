@@ -1,44 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>One Last Question</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="night">
 
-<div class="center">
-  <div class="card">
-    <h1>I Love You ❤️</h1>
-    <p>Will you be mine forever?</p>
+<body>
 
-    <div class="buttons">
-      <button class="btn-primary" onclick="yes()">Yes, obviously</button>
-      <button class="btn-secondary" onclick="no()">No</button>
+  <div class="quiz-card">
+
+    <h1 style="font-size: 36px; margin-bottom: 10px;">
+      I Love You ❤️
+    </h1>
+
+    <p style="font-size: 18px; opacity: 0.9; margin-bottom: 30px;">
+      Will you be mine forever?
+    </p>
+
+    <!-- BUTTONS -->
+    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+
+      <button class="btn-primary" onclick="window.location.href='yes.html'">
+        Yes, obviously 💖
+      </button>
+
+      <button class="btn-primary" onclick="showAngry()">
+        No
+      </button>
+
     </div>
+
+    <!-- ANGRY MESSAGE -->
+    <p id="angryText"
+       style="margin-top: 20px; font-size: 16px; display: none;">
+      How dare you say no 😡<br>
+      I am angry now!
+    </p>
+
+    <button id="sorryBtn"
+            class="btn-primary"
+            style="display: none; margin-top: 16px;"
+            onclick="window.location.href='yes.html'">
+      Okay sorry 🥺
+    </button>
+
   </div>
-</div>
 
-<div id="popup" class="popup">
-  <div class="popup-box">
-    <p>How dare you say no 😡<br>I am angry now!</p>
-    <button class="btn-primary" onclick="closePopup()">Okay sorry 🥺</button>
-  </div>
-</div>
-
-<script>
-  function yes() {
-    window.location.href = "yes.html";
-  }
-
-  function no() {
-    document.getElementById("popup").style.display = "flex";
-  }
-
-  function closePopup() {
-    document.getElementById("popup").style.display = "none";
-  }
-</script>
+  <script>
+    function showAngry() {
+      document.getElementById("angryText").style.display = "block";
+      document.getElementById("sorryBtn").style.display = "block";
+    }
+  </script>
 
 </body>
 </html>
