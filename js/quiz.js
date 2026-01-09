@@ -3,8 +3,7 @@ const questions = [
   {
     text: "What was the first thing about me that made you feel safe talking to me?",
     type: "text",
-    reward: "Reading that made me smile ❤️",
-    keywords: ["safe", "trust", "listen"]
+    reward: "Reading that made me smile ❤️"
   },
   {
     text: "What’s your favorite version of me?",
@@ -44,13 +43,14 @@ function playYouTubeMusic() {
     JSON.stringify({ event: "command", func: "playVideo", args: [] }),
     "*"
   );
+
   iframe.contentWindow.postMessage(
     JSON.stringify({ event: "command", func: "unMute", args: [] }),
     "*"
   );
 }
 
-/******** GIF ********/
+/******** RANDOM GIF ********/
 function setRandomGif() {
   const img = document.getElementById("questionGif");
   if (!img) return;
@@ -64,7 +64,7 @@ function setRandomGif() {
   };
 }
 
-/******** SAKURA ********/
+/******** SAKURA GENERATOR ********/
 function createSakura() {
   const container = document.getElementById("sakura-container");
   if (!container) return;
@@ -73,11 +73,14 @@ function createSakura() {
   petal.className = "sakura";
   petal.style.left = Math.random() * 100 + "vw";
   petal.style.animationDuration = 8 + Math.random() * 6 + "s";
+  petal.style.opacity = Math.random() * 0.5 + 0.3;
+
   container.appendChild(petal);
 
   setTimeout(() => petal.remove(), 15000);
 }
-setInterval(createSakura, 700);
+
+setInterval(createSakura, 350);
 
 /******** LOAD QUESTION ********/
 function loadQuestion() {
