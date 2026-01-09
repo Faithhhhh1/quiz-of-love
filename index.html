@@ -28,18 +28,18 @@
   <script src="js/music.js"></script>
 
   <!-- Start button logic -->
-  <script>
-    const startBtn = document.getElementById("startBtn");
+ <script src="js/music.js"></script>
 
-    startBtn.addEventListener("click", () => {
-      // Allow music to start (browser requirement)
-      enableMusic();
+<script>
+  const startBtn = document.getElementById("startBtn");
 
-      // Small delay so music command registers
-      setTimeout(() => {
-        window.location.href = "quiz.html";
-      }, 300);
-    });
-  </script>
+  startBtn.addEventListener("click", () => {
+    enableMusic(); // now EXISTS ✅
+
+    setTimeout(() => {
+      window.location.href = "quiz.html";
+    }, 300);
+  });
+</script>
 </body>
 </html>
