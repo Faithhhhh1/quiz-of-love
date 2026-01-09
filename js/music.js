@@ -1,10 +1,14 @@
-// assets/js/music.js
-
 let player;
-const VIDEO_ID = "yjuImlE3-LQ"; // your song
+const VIDEO_ID = "yjuImlE3-LQ"; // song
+const START_TIME = 10; // 0:10
+
+function enableMusic() {
+  localStorage.setItem("musicAllowed", "true");
+  loadYouTubeAPI();
+}
 
 function loadYouTubeAPI() {
-  if (window.YT) {
+  if (window.YT && window.YT.Player) {
     onYouTubeIframeAPIReady();
     return;
   }
@@ -23,15 +27,15 @@ function onYouTubeIframeAPIReady() {
     videoId: VIDEO_ID,
     playerVars: {
       autoplay: 1,
+      start: START_TIME,
       loop: 1,
       playlist: VIDEO_ID,
-      controls: 0,
-      mute: 0
+      controls: 0
     },
     events: {
       onReady: (e) => {
-        const allowed = localStorage.getItem("musicAllowed");
-        if (allowed === "true") {
+        if (localStorage.getItem("musicAllowed") === "true") {
+          e.target.seekTo(START_TIME);
           e.target.playVideo();
         }
       }
@@ -39,11 +43,8 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
-function enableMusic() {
-  localStorage.setItem("musicAllowed", "true");
-  if (player) player.playVideo();
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  loadYouTubeAPI();
+  if (localStorage.getItem("musicAllowed") === "true") {
+    loadYouTubeAPI();
+  }
 });
