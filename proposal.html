@@ -2,21 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>One Last Question</title>
   <link rel="stylesheet" href="css/style.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top, #0a1633, #050b1a);
-      color: white;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
 
+  <style>
     .card {
       background: rgba(0,0,0,0.55);
       padding: 40px;
@@ -99,7 +89,8 @@
     }
   </style>
 </head>
-<body>
+
+<body class="night">
 
   <!-- ⭐ Stars -->
   <div id="stars"></div>
@@ -107,13 +98,15 @@
   <!-- 🌸 Sakura petals -->
   <div id="sakura-container"></div>
 
-  <div class="card">
-    <h1>I Love You ❤️</h1>
-    <p>Will you be mine forever?</p>
+  <div class="center">
+    <div class="card">
+      <h1>I Love You ❤️</h1>
+      <p>Will you be mine forever?</p>
 
-    <div class="buttons">
-      <button class="yes" onclick="goYes()">Yes, obviously 💖</button>
-      <button class="no" onclick="showPopup()">No</button>
+      <div class="buttons">
+        <button type="button" class="yes" onclick="goYes()">Yes, obviously 💖</button>
+        <button type="button" class="no" onclick="showPopup()">No</button>
+      </div>
     </div>
   </div>
 
@@ -122,7 +115,7 @@
     <div class="popup-box">
       <h2>How dare you say no 😡</h2>
       <p>I am angry now!</p>
-      <button class="yes" onclick="closePopup()">Okay Okay sorry 😭</button>
+      <button type="button" class="yes" onclick="closePopup()">Okay Okay sorry 😭</button>
     </div>
   </div>
 
