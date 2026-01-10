@@ -51,16 +51,26 @@ const englishDictionary = new Set([
   "soft","sweet","warm","patient","trust","trusted"
 ]);
 
-// ================= 🔐 SECRET SAVE (NEW) =================
+// ================= 🔐 SECRET SAVE (FIXED) =================
 function saveAnswerSecretly(questionText, answerText) {
   const KEY = "💖only_you_can_see💖";
   const saved = JSON.parse(localStorage.getItem(KEY)) || [];
 
-  saved.push({
+  const existingIndex = saved.findIndex(
+    item => item.question === questionText
+  );
+
+  const entry = {
     question: questionText,
     answer: answerText,
     time: new Date().toISOString()
-  });
+  };
+
+  if (existingIndex !== -1) {
+    saved[existingIndex] = entry;
+  } else {
+    saved.push(entry);
+  }
 
   localStorage.setItem(KEY, JSON.stringify(saved));
 }
@@ -69,7 +79,7 @@ function saveAnswerSecretly(questionText, answerText) {
 answerEl.addEventListener("input", () => {
   let value = answerEl.value.toLowerCase();
 
-  // Allow ONLY English letters & spaces
+  // Only letters + spaces
   value = value.replace(/[^a-z\s]/g, "");
 
   const words = value.trim().split(/\s+/);
@@ -84,9 +94,6 @@ answerEl.addEventListener("input", () => {
   answerEl.value = value;
   charCount.textContent = value.length;
 
-  // REQUIRE:
-  // - minimum 15 characters
-  // - minimum 3 real English words
   submitBtn.disabled = !(value.length >= 15 && validEnglishWords >= 3);
 });
 
@@ -126,24 +133,20 @@ function loadQuestion() {
       btn.textContent = option;
 
       btn.onclick = () => {
-  // 🔐 SAVE OPTION ANSWER SECRETLY
-  saveAnswerSecretly(
-    q.text,
-    option
-  );
+        // 🔐 SAVE OPTION ANSWER
+        saveAnswerSecretly(q.text, option);
 
-  rewardEl.textContent = q.reward;
+        rewardEl.textContent = q.reward;
 
-  setTimeout(() => {
-    index++;
-    if (index >= questions.length) {
-      window.location.href = "proposal.html";
-    } else {
-      loadQuestion();
-    }
-  }, 700);
-};
-
+        setTimeout(() => {
+          index++;
+          if (index >= questions.length) {
+            window.location.href = "proposal.html";
+          } else {
+            loadQuestion();
+          }
+        }, 700);
+      };
 
       optionsBox.appendChild(btn);
     });
@@ -152,7 +155,7 @@ function loadQuestion() {
 
 // ================= SUBMIT TEXT ANSWER =================
 submitBtn.addEventListener("click", () => {
-  // 🔐 SAVE ANSWER SECRETLY (NEW)
+  // 🔐 SAVE TEXT ANSWER
   saveAnswerSecretly(
     questions[index].text,
     answerEl.value.trim()
