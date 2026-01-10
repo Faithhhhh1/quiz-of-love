@@ -51,7 +51,7 @@ const englishDictionary = new Set([
   "soft","sweet","warm","patient","trust","trusted"
 ]);
 
-// ================= 🔐 SECRET SAVE (FIXED) =================
+// ================= 🔐 SECRET SAVE =================
 function saveAnswerSecretly(questionText, answerText) {
   const KEY = "💖only_you_can_see💖";
   const saved = JSON.parse(localStorage.getItem(KEY)) || [];
@@ -67,6 +67,7 @@ function saveAnswerSecretly(questionText, answerText) {
   };
 
   if (existingIndex !== -1) {
+    know existing answer
     saved[existingIndex] = entry;
   } else {
     saved.push(entry);
@@ -75,11 +76,29 @@ function saveAnswerSecretly(questionText, answerText) {
   localStorage.setItem(KEY, JSON.stringify(saved));
 }
 
+// ================= SAKURA PETALS =================
+const sakuraContainer = document.getElementById("sakura-container");
+
+if (sakuraContainer) {
+  function createPetal() {
+    const petal = document.createElement("div");
+    petal.className = "sakura";
+
+    petal.style.left = Math.random() * 100 + "vw";
+    petal.style.animationDuration = 10 + Math.random() * 10 + "s";
+    petal.style.animationDelay = Math.random() * 5 + "s";
+
+    sakuraContainer.appendChild(petal);
+    setTimeout(() => petal.remove(), 20000);
+  }
+
+  setInterval(createPetal, 500);
+}
+
 // ================= INPUT VALIDATION =================
 answerEl.addEventListener("input", () => {
   let value = answerEl.value.toLowerCase();
 
-  // Only letters + spaces
   value = value.replace(/[^a-z\s]/g, "");
 
   const words = value.trim().split(/\s+/);
@@ -107,7 +126,6 @@ function loadQuestion() {
 
   gifEl.src = gifs[Math.floor(Math.random() * gifs.length)];
 
-  // Reset
   answerEl.value = "";
   charCount.textContent = "0";
   submitBtn.disabled = true;
@@ -133,9 +151,7 @@ function loadQuestion() {
       btn.textContent = option;
 
       btn.onclick = () => {
-        // 🔐 SAVE OPTION ANSWER
         saveAnswerSecretly(q.text, option);
-
         rewardEl.textContent = q.reward;
 
         setTimeout(() => {
@@ -155,7 +171,6 @@ function loadQuestion() {
 
 // ================= SUBMIT TEXT ANSWER =================
 submitBtn.addEventListener("click", () => {
-  // 🔐 SAVE TEXT ANSWER
   saveAnswerSecretly(
     questions[index].text,
     answerEl.value.trim()
