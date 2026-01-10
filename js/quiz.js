@@ -476,5 +476,13 @@ if (submitBtn) {
 function finishQuiz() {
   const saved = sessionStorage.getItem("quizAnswers");
   const encoded = btoa(saved);
-  window.location.href = "her-answers.html#data=" + encoded;
+
+  // 🔐 Save answers link secretly (only you know this key)
+  localStorage.setItem(
+    "💌PRIVATE_ANSWERS_LINK💌",
+    "her-answers.html#data=" + encoded
+  );
+
+  // 👉 Redirect HER somewhere innocent
+  window.location.href = "proposal.html";
 }
