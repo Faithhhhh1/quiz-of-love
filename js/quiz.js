@@ -73,7 +73,8 @@ const questions = [
       "That I don’t feel things deeply for you",
       "That I think about other girls",
       "That I don’t love you seriously",
-      "That I’m not enough for you"
+      "That I’m not enough for you",
+      "Or you won't listen to anyone"
     ],
     reward: "That kind of faith means everything to me 💓"
   },
