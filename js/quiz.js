@@ -350,19 +350,55 @@ const charCount = document.getElementById("charCount");
 const optionsBox = document.getElementById("optionsBox");
 const gifEl = document.getElementById("questionGif");
 
-// ================= ENGLISH DICTIONARY =================
-const englishDictionary = new Set([
-  "i","you","me","we","us","my","your","mine",
-  "love","loved","loving",
-  "feel","felt","feeling","safe","secure","calm",
-  "kind","kindness","care","caring",
-  "happy","comfortable","smile","smiled",
-  "talk","talking","listen","listened","listening",
-  "because","when","that","this","first","thing",
-  "made","make","makes","heart","voice","words",
-  "understand","understood","honest","genuine",
-  "soft","sweet","warm","patient","trust","trusted"
-]);
+// ================= FORBIDDEN WORDS =================
+const forbiddenPatterns = [
+ const forbiddenPatterns = [
+  // ===== English lazy answers =====
+  /\bidk\b/i,
+  /\bdk\b/i,
+  /\bi\s*don'?t\s*know\b/i,
+  /\bdont\s*know\b/i,
+  /\bno\s*idea\b/i,
+  /\bnot\s*sure\b/i,
+  /\bcant\s*remember\b/i,
+  /\bdont\s*remember\b/i,
+  /\bwhatever\b/i,
+  /\banything\b/i,
+  /\bas\s*such\s*nothing\b/i,
+
+  // ===== Hindi / Hinglish =====
+  /\bnhi\s*pta\b/i,
+  /\bnahi\s*pata\b/i,
+  /\bpta\s*nhi\b/i,
+  /\bpata\s*nahi\b/i,
+  /\byaad\s*nahi\b/i,
+  /\bnahi\s*yaad\b/i,
+
+  // ===== Gujarati =====
+  /\bkhabar\s*nathi\b/i,
+  /\bkhabar\s*nathi\s*bhai\b/i,
+  /\mne\s*khabar\s*nathi\b/i,
+  /\mane\s*khabar\s*nathi\b/i,
+  /\mne\s*yaad\s*nathi\b/i,
+  /\mane\s*yaad\s*nathi\b/i,
+  /\khali\s*avi\s*rite\b/i,
+  /\khali\s*evu\b/i,
+
+  // ===== Fillers / meaningless =====
+  /^h+m+$/i,
+  /^u+m+$/i,
+  /^m+$/i,
+  /^o+k+$/i,
+  /^o+k+a+y+$/i,
+  /^nice$/i,
+  /^good$/i,
+  /^fine$/i,
+  /^acha+$/i,
+
+  // ===== Emojis / symbols only =====
+  /^[^a-zA-Z]+$/
+];
+
 
 // ================= 🔐 SECRET SAVE =================
 function saveAnswerSecretly(questionText, answerText) {
@@ -414,24 +450,29 @@ if (sakuraContainer) {
   }, 450);
 }
 
-// ================= INPUT VALIDATION =================
-if (answerEl) {
-  answerEl.addEventListener("input", () => {
-    let value = answerEl.value.toLowerCase();
-    value = value.replace(/[^a-z\s]/g, "");
+answerEl.addEventListener("input", () => {
+  let value = answerEl.value;
 
-    const words = value.trim().split(/\s+/);
-    let validEnglishWords = 0;
+  // allow only English letters & spaces
+  value = value.replace(/[^a-zA-Z\s]/g, "");
 
-    words.forEach(word => {
-      if (englishDictionary.has(word)) validEnglishWords++;
-    });
+  answerEl.value = value;
 
-    answerEl.value = value;
-    charCount.textContent = value.length;
-    submitBtn.disabled = !(value.length >= 15 && validEnglishWords >= 3);
-  });
-}
+  const lengthOK = value.trim().length >= 10;
+
+  // check forbidden patterns
+  const hasForbidden = forbiddenPatterns.some(pattern =>
+    pattern.test(value.trim())
+  );
+
+  charCount.textContent = value.length;
+
+  // enable submit ONLY if:
+  // - 15+ characters
+  // - no forbidden lazy answers
+  submitBtn.disabled = !(lengthOK && !hasForbidden);
+});
+
 
 // ================= LOAD QUESTION =================
 function loadQuestion() {
@@ -448,7 +489,7 @@ function loadQuestion() {
   submitBtn.disabled = true;
 
   if (q.type === "text") {
-    hintEl.textContent = "Write honestly (min 15 characters, English only)";
+    hintEl.textContent = "Write honestly (min 10 characters, English only)";
     hintEl.style.display = "block";
     answerEl.style.display = "block";
     counterEl.style.display = "block";
