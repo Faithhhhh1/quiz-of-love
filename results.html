@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Her Answers 💖</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0a1a3a;
+      color: #fff;
+      padding: 20px;
+    }
+    .box {
+      max-width: 800px;
+      margin: auto;
+      background: rgba(0,0,0,0.6);
+      padding: 20px;
+      border-radius: 16px;
+    }
+    h2 { margin-top: 24px; }
+    p { opacity: 0.9; }
+  </style>
+</head>
+<body>
+
+<script>
+  const PASSWORD = "onlyus"; // 🔐 CHANGE THIS
+
+  const input = prompt("Enter password:");
+  if (input !== PASSWORD) {
+    document.body.innerHTML = "<h1>Access Denied ❌</h1>";
+    throw new Error("Unauthorized");
+  }
+
+  const hash = location.hash;
+  const data = hash.split("data=")[1];
+
+  if (!data) {
+    document.body.innerHTML = "<h2>No data found.</h2>";
+  } else {
+    const answers = JSON.parse(atob(data));
+    const box = document.createElement("div");
+    box.className = "box";
+
+    answers.forEach((item, i) => {
+      const q = document.createElement("h2");
+      q.textContent = item.question;
+
+      const a = document.createElement("p");
+      a.textContent = "→ " + item.answer;
+
+      box.appendChild(q);
+      box.appendChild(a);
+    });
+
+    document.body.appendChild(box);
+  }
+</script>
+
+</body>
+</html>
