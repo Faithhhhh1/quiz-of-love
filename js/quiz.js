@@ -1,3 +1,4 @@
+// ================= QUESTIONS =================
 const questions = [
   {
     text: "What was the first thing about me that made you feel safe talking to me?",
@@ -25,7 +26,7 @@ const gifs = [
 
 let index = 0;
 
-// Elements
+// ================= ELEMENTS =================
 const questionEl = document.getElementById("question");
 const hintEl = document.getElementById("hint");
 const answerEl = document.getElementById("answer");
@@ -35,39 +36,49 @@ const counterEl = document.getElementById("counter");
 const charCount = document.getElementById("charCount");
 const optionsBox = document.getElementById("optionsBox");
 const gifEl = document.getElementById("questionGif");
+
+// ================= ENGLISH DICTIONARY =================
+// (You can safely add more words anytime)
+const englishDictionary = new Set([
+  "i","you","me","we","us","my","your","mine",
+  "love","loved","loving",
+  "feel","felt","feeling","safe","secure","calm",
+  "kind","kindness","care","caring",
+  "happy","comfortable","smile","smiled",
+  "talk","talking","listen","listened","listening",
+  "because","when","that","this","first","thing",
+  "made","make","makes","heart","voice","words",
+  "understand","understood","honest","genuine",
+  "soft","sweet","warm","patient","trust","trusted"
+]);
+
+// ================= INPUT VALIDATION =================
 answerEl.addEventListener("input", () => {
-  let value = answerEl.value;
+  let value = answerEl.value.toLowerCase();
 
-  // Allow only letters and spaces
-  value = value.replace(/[^a-zA-Z\s]/g, "");
+  // Allow ONLY English letters & spaces
+  value = value.replace(/[^a-z\s]/g, "");
 
-  // Split words
   const words = value.trim().split(/\s+/);
 
-  // Very small English word whitelist (core words)
-  const englishWords = [
-    "i","you","me","we","us","love","feel","felt","safe","kind",
-    "calm","comfortable","happy","smile","care","caring","sweet",
-    "honest","talking","listened","listening","first","thing",
-    "because","when","your","voice","words","heart","understand"
-  ];
+  let validEnglishWords = 0;
 
-  // Keep only words that look English
-  const filteredWords = words.filter(word => {
-    return (
-      word.length > 2 &&
-      /[aeiou]/i.test(word) &&        // must contain vowels
-      !/(hh|jj|xx|zz|vv)/i.test(word) // blocks gibberish
-    );
+  words.forEach(word => {
+    if (englishDictionary.has(word)) {
+      validEnglishWords++;
+    }
   });
 
-  answerEl.value = filteredWords.join(" ");
+  answerEl.value = value;
+  charCount.textContent = value.length;
 
-  // Update counter + button
-  charCount.textContent = answerEl.value.length;
-  submitBtn.disabled = answerEl.value.length < 15;
+  // REQUIRE:
+  // - minimum 15 characters
+  // - minimum 3 real English words
+  submitBtn.disabled = !(value.length >= 15 && validEnglishWords >= 3);
 });
 
+// ================= LOAD QUESTION =================
 function loadQuestion() {
   const q = questions[index];
 
@@ -77,13 +88,12 @@ function loadQuestion() {
 
   gifEl.src = gifs[Math.floor(Math.random() * gifs.length)];
 
-  // RESET EVERYTHING
+  // Reset
   answerEl.value = "";
   charCount.textContent = "0";
   submitBtn.disabled = true;
 
   if (q.type === "text") {
-    // TEXT QUESTION
     hintEl.textContent = "Write honestly (min 15 characters, English only)";
     hintEl.style.display = "block";
 
@@ -91,9 +101,7 @@ function loadQuestion() {
     counterEl.style.display = "block";
     submitBtn.style.display = "inline-block";
     optionsBox.style.display = "none";
-  } 
-  else {
-    // OPTIONS QUESTION
+  } else {
     hintEl.style.display = "none";
     answerEl.style.display = "none";
     counterEl.style.display = "none";
@@ -108,7 +116,6 @@ function loadQuestion() {
       btn.onclick = () => {
         rewardEl.textContent = q.reward;
 
-        // small delay for sweetness, then move on
         setTimeout(() => {
           index++;
           if (index >= questions.length) {
@@ -124,14 +131,7 @@ function loadQuestion() {
   }
 }
 
-// TEXT INPUT COUNTER
-answerEl.addEventListener("input", () => {
-  const len = answerEl.value.trim().length;
-  charCount.textContent = len;
-  submitBtn.disabled = len < 15;
-});
-
-// SUBMIT TEXT ANSWER
+// ================= SUBMIT TEXT ANSWER =================
 submitBtn.addEventListener("click", () => {
   rewardEl.textContent = questions[index].reward;
 
@@ -141,5 +141,5 @@ submitBtn.addEventListener("click", () => {
   }, 800);
 });
 
-// INIT
+// ================= INIT =================
 loadQuestion();
