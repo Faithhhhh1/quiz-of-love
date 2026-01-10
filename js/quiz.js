@@ -1,3 +1,6 @@
+// ================= COLLECT ANSWERS =================
+const collectedAnswers = [];
+
 // ================= QUESTIONS =================
 const questions = [
   {
@@ -424,15 +427,20 @@ function loadQuestion() {
       btn.textContent = option;
 
       btn.onclick = () => {
-        rewardEl.textContent = q.reward;
+  collectedAnswers.push({
+    question: q.text,
+    answer: option
+  });
 
-        setTimeout(() => {
-          index++;
-          index >= questions.length
-            ? window.location.href = "proposal.html"
-            : loadQuestion();
-        }, 700);
-      };
+  rewardEl.textContent = q.reward;
+
+  setTimeout(() => {
+    index++;
+    index >= questions.length
+      ? finishQuiz()
+      : loadQuestion();
+  }, 700);
+};
 
       optionsBox.appendChild(btn);
     });
@@ -442,18 +450,26 @@ function loadQuestion() {
 // ================= SUBMIT TEXT ANSWER =================
 if (submitBtn) {
   submitBtn.addEventListener("click", () => {
-    rewardEl.textContent = questions[index].reward;
-
-    setTimeout(() => {
-      index++;
-      index >= questions.length
-        ? window.location.href = "proposal.html"
-        : loadQuestion();
-    }, 800);
+  collectedAnswers.push({
+    question: questions[index].text,
+    answer: answerEl.value.trim()
   });
-}
 
-// ================= INIT =================
-if (questionEl) {
+  rewardEl.textContent = questions[index].reward;
+
+  setTimeout(() => {
+    index++;
+    index >= questions.length
+      ? finishQuiz()
+      : loadQuestion();
+  }, 800);
+});
+
   loadQuestion();
 }
+// ================= FINISH QUIZ =================
+function finishQuiz() {
+  const encoded = btoa(JSON.stringify(collectedAnswers));
+  window.location.href = "her-answers.html#data=" + encoded;
+}
+
