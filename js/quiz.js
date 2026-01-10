@@ -432,6 +432,8 @@ function loadQuestion() {
     answer: option
   });
 
+  sessionStorage.setItem("quizAnswers", JSON.stringify(collectedAnswers));
+
   rewardEl.textContent = q.reward;
 
   setTimeout(() => {
@@ -441,6 +443,7 @@ function loadQuestion() {
       : loadQuestion();
   }, 700);
 };
+
 
       optionsBox.appendChild(btn);
     });
@@ -455,6 +458,8 @@ if (submitBtn) {
     answer: answerEl.value.trim()
   });
 
+  sessionStorage.setItem("quizAnswers", JSON.stringify(collectedAnswers));
+
   rewardEl.textContent = questions[index].reward;
 
   setTimeout(() => {
@@ -465,11 +470,11 @@ if (submitBtn) {
   }, 800);
 });
 
+
   loadQuestion();
-}
 // ================= FINISH QUIZ =================
 function finishQuiz() {
-  const encoded = btoa(JSON.stringify(collectedAnswers));
+  const saved = sessionStorage.getItem("quizAnswers");
+  const encoded = btoa(saved);
   window.location.href = "her-answers.html#data=" + encoded;
 }
-
