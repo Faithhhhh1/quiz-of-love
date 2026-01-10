@@ -269,11 +269,14 @@ answerEl.addEventListener("input", () => {
   let value = answerEl.value.replace(/[^a-zA-Z\s]/g, "");
   answerEl.value = value;
 
+  // ✅ ADD THIS LINE HERE
   const lengthOK = value.trim().length >= 10;
+
   const hasForbidden = forbiddenPatterns.some(p => p.test(value.trim()));
 
   charCount.textContent = value.length;
   submitBtn.disabled = !(lengthOK && !hasForbidden);
+  submitBtn.style.opacity = submitBtn.disabled ? "0.5" : "1";
 });
 
 // ================= LOAD QUESTION =================
@@ -289,6 +292,7 @@ function loadQuestion() {
   answerEl.value = "";
   charCount.textContent = "0";
   submitBtn.disabled = true;
+  submitBtn.style.opacity = "0.5";
 
   if (q.type === "text") {
     hintEl.style.display = "block";
