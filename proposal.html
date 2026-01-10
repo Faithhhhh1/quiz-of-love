@@ -114,42 +114,34 @@
   </div>
 
   <script>
-    function showPopup() {
-      document.getElementById("popup").style.display = "flex";
-    }
+  const btn = document.getElementById("sendAnswersBtn");
+  const answers = localStorage.getItem("quizAnswersFinal");
 
-    function closePopup() {
-      document.getElementById("popup").style.display = "none";
-    }
+  if (btn && answers) {
+    btn.style.display = "block";
+  }
 
-    function goYes() {
-      window.location.href = "yes.html";
-    }
-  </script>
+  if (btn) {
+    btn.addEventListener("click", () => {
+      if (!answers) return;
 
-  <!-- 💌 SEND ANSWERS LOGIC -->
-  <script>
-    const btn = document.getElementById("sendAnswersBtn");
-    const answers = sessionStorage.getItem("quizAnswers");
+      const encoded = btoa(answers);
 
-    if (btn && answers) {
-      btn.style.display = "block";
-    }
+      const phoneNumber = "918955024257"; // YOUR NUMBER
+      const msg = encodeURIComponent(
+        "💖 I finished the quiz.\nHere are my answers:\n\n" +
+        location.origin + "/her-answers.html#data=" + encoded
+      );
 
-    if (btn) {
-      btn.addEventListener("click", () => {
-        const encoded = btoa(answers);
+      window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
 
-        const phoneNumber = "918955024257"; // ← YOUR NUMBER
-        const msg = encodeURIComponent(
-          "💖 I finished the quiz.\nHere are my answers:\n\n" +
-          location.origin + "/her-answers.html#data=" + encoded
-        );
-
-        window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
-      });
-    }
-  </script>
+      // optional UX polish
+      btn.textContent = "💖 Sent with love";
+      btn.disabled = true;
+      btn.style.opacity = "0.6";
+    });
+  }
+</script>
 
 </body>
 </html>
