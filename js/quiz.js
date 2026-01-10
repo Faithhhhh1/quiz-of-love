@@ -126,17 +126,24 @@ function loadQuestion() {
       btn.textContent = option;
 
       btn.onclick = () => {
-        rewardEl.textContent = q.reward;
+  // 🔐 SAVE OPTION ANSWER SECRETLY
+  saveAnswerSecretly(
+    q.text,
+    option
+  );
 
-        setTimeout(() => {
-          index++;
-          if (index >= questions.length) {
-            window.location.href = "proposal.html";
-          } else {
-            loadQuestion();
-          }
-        }, 700);
-      };
+  rewardEl.textContent = q.reward;
+
+  setTimeout(() => {
+    index++;
+    if (index >= questions.length) {
+      window.location.href = "proposal.html";
+    } else {
+      loadQuestion();
+    }
+  }, 700);
+};
+
 
       optionsBox.appendChild(btn);
     });
