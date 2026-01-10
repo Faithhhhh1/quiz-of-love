@@ -13,7 +13,7 @@ const questions = [
       "Loving but naughty me",
       "Normal me"
     ],
-    reward: "I love that version too 💖"
+    reward: "I love you 💖"
   }
 ];
 
