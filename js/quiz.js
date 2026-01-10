@@ -67,7 +67,6 @@ function saveAnswerSecretly(questionText, answerText) {
   };
 
   if (existingIndex !== -1) {
-    // update existing answer
     saved[existingIndex] = entry;
   } else {
     saved.push(entry);
@@ -76,40 +75,55 @@ function saveAnswerSecretly(questionText, answerText) {
   localStorage.setItem(KEY, JSON.stringify(saved));
 }
 
-// ================= SAKURA PETALS =================
+// ================= 🌸 REALISTIC SAKURA PETALS =================
 const sakuraContainer = document.getElementById("sakura-container");
 
 if (sakuraContainer) {
   setInterval(() => {
     const petal = document.createElement("div");
     petal.className = "sakura";
+
+    // random horizontal start
     petal.style.left = Math.random() * 100 + "vw";
-    petal.style.animationDuration = 10 + Math.random() * 10 + "s";
+
+    // random wind direction
+    const drift = (Math.random() * 120 - 60).toFixed(0) + "px";
+    petal.style.setProperty("--drift", drift);
+
+    // random timing
+    petal.style.setProperty("--fall-time", 10 + Math.random() * 10 + "s");
+    petal.style.setProperty("--sway-time", 3 + Math.random() * 3 + "s");
+    petal.style.setProperty("--spin-time", 6 + Math.random() * 6 + "s");
+
     sakuraContainer.appendChild(petal);
+
     setTimeout(() => petal.remove(), 20000);
-  }, 500);
+  }, 450);
 }
 
 // ================= INPUT VALIDATION =================
-answerEl.addEventListener("input", () => {
-  let value = answerEl.value.toLowerCase();
-  value = value.replace(/[^a-z\s]/g, "");
+if (answerEl) {
+  answerEl.addEventListener("input", () => {
+    let value = answerEl.value.toLowerCase();
+    value = value.replace(/[^a-z\s]/g, "");
 
-  const words = value.trim().split(/\s+/);
-  let validEnglishWords = 0;
+    const words = value.trim().split(/\s+/);
+    let validEnglishWords = 0;
 
-  words.forEach(word => {
-    if (englishDictionary.has(word)) validEnglishWords++;
+    words.forEach(word => {
+      if (englishDictionary.has(word)) validEnglishWords++;
+    });
+
+    answerEl.value = value;
+    charCount.textContent = value.length;
+    submitBtn.disabled = !(value.length >= 15 && validEnglishWords >= 3);
   });
-
-  answerEl.value = value;
-  charCount.textContent = value.length;
-  submitBtn.disabled = !(value.length >= 15 && validEnglishWords >= 3);
-});
+}
 
 // ================= LOAD QUESTION =================
 function loadQuestion() {
   const q = questions[index];
+  if (!q) return;
 
   questionEl.textContent = q.text;
   rewardEl.textContent = "";
@@ -157,15 +171,25 @@ function loadQuestion() {
 }
 
 // ================= SUBMIT TEXT ANSWER =================
-submitBtn.addEventListener("click", () => {
-  saveAnswerSecretly(questions[index].text, answerEl.value.trim());
-  rewardEl.textContent = questions[index].reward;
+if (submitBtn) {
+  submitBtn.addEventListener("click", () => {
+    saveAnswerSecretly(
+      questions[index].text,
+      answerEl.value.trim()
+    );
 
-  setTimeout(() => {
-    index++;
-    loadQuestion();
-  }, 800);
-});
+    rewardEl.textContent = questions[index].reward;
+
+    setTimeout(() => {
+      index++;
+      index >= questions.length
+        ? window.location.href = "proposal.html"
+        : loadQuestion();
+    }, 800);
+  });
+}
 
 // ================= INIT =================
-loadQuestion();
+if (questionEl) {
+  loadQuestion();
+}
