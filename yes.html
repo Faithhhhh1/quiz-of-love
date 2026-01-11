@@ -73,7 +73,9 @@
       btn.style.display = "none";
     } else {
       btn.addEventListener("click", () => {
-        const encoded = btoa(answers);
+        const encoded = btoa(
+  encodeURIComponent(answers)
+);
         const phoneNumber = "918955024257";
 
         const msg = encodeURIComponent(
