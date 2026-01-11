@@ -55,12 +55,41 @@
         I love you completely 💓  
         Always. 💖
       </p>
-
+<button id="sendHeartBtn" class="btn-primary" style="margin-top:30px;">
+  💌 Send your heart to me
+</button>
     </div>
   </div>
 
   <!-- Sakura animation engine -->
   <script src="js/sakura.js"></script>
+<script>
+  const btn = document.getElementById("sendHeartBtn");
 
+  if (btn) {
+    const answers = sessionStorage.getItem("quizAnswers");
+
+    if (!answers) {
+      btn.style.display = "none";
+    } else {
+      btn.addEventListener("click", () => {
+        const encoded = btoa(answers);
+        const phoneNumber = "918955024257"; // YOUR NUMBER
+
+        const msg = encodeURIComponent(
+          "💖 She said YES.\nHere is her heart:\n\n" +
+          location.origin + "/her-answers.html#data=" + encoded
+        );
+
+        window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
+
+        // UX polish
+        btn.textContent = "💖 Sent with love";
+        btn.disabled = true;
+        btn.style.opacity = "0.6";
+      });
+    }
+  }
+</script>
 </body>
 </html>
