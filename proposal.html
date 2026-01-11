@@ -113,8 +113,7 @@
     </div>
   </div>
 
-  <script>
-  // REQUIRED BUTTON FUNCTIONS (were missing)
+<script>
   function showPopup() {
     document.getElementById("popup").style.display = "flex";
   }
@@ -123,33 +122,12 @@
     document.getElementById("popup").style.display = "none";
   }
 
- function goYes() {
-  const answers = sessionStorage.getItem("quizAnswers");
-  if (!answers) {
+  function goYes() {
     window.location.href = "yes.html";
-    return;
   }
 
-  const encoded = btoa(answers);
-  const phoneNumber = "918955024257"; // YOUR NUMBER
-
-  const msg = encodeURIComponent(
-    "💖 She said YES.\nHere is her heart:\n\n" +
-    location.origin + "/her-answers.html#data=" + encoded
-  );
-
-  // 🔥 Auto open WhatsApp
-  window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
-
-  // then move to yes page
-  setTimeout(() => {
-    window.location.href = "yes.html";
-  }, 500);
-}
-
-  // 💌 SEND ANSWERS LOGIC (FIXED STORAGE)
   const btn = document.getElementById("sendAnswersBtn");
-  const answers = sessionStorage.getItem("quizAnswers"); // ✅ FIXED
+  const answers = sessionStorage.getItem("quizAnswers");
 
   if (btn && answers) {
     btn.style.display = "block";
@@ -160,8 +138,8 @@
       if (!answers) return;
 
       const encoded = btoa(answers);
+      const phoneNumber = "918955024257";
 
-      const phoneNumber = "918955024257"; // YOUR NUMBER
       const msg = encodeURIComponent(
         "💖 I finished the quiz.\nHere are my answers:\n\n" +
         location.origin + "/her-answers.html#data=" + encoded
@@ -169,7 +147,6 @@
 
       window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
 
-      // UX polish
       btn.textContent = "💖 Sent with love";
       btn.disabled = true;
       btn.style.opacity = "0.6";
