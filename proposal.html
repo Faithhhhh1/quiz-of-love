@@ -97,11 +97,6 @@
         <button type="button" class="yes" onclick="goYes()">Yes, obviously 💖</button>
         <button type="button" class="no" onclick="showPopup()">No</button>
       </div>
-
-      <!-- 💌 SEND ANSWERS BUTTON (HIDDEN BY DEFAULT) -->
-      <button id="sendAnswersBtn" class="yes" style="display:none; margin-top:20px;">
-        💌 Send your heart to me💖
-      </button>
     </div>
   </div>
 
@@ -113,45 +108,19 @@
     </div>
   </div>
 
-<script>
-  function showPopup() {
-    document.getElementById("popup").style.display = "flex";
-  }
+  <script>
+    function showPopup() {
+      document.getElementById("popup").style.display = "flex";
+    }
 
-  function closePopup() {
-    document.getElementById("popup").style.display = "none";
-  }
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
 
-  function goYes() {
-    window.location.href = "yes.html";
-  }
+    function goYes() {
+      window.location.href = "yes.html";
+    }
+  </script>
 
-  const btn = document.getElementById("sendAnswersBtn");
-  const answers = sessionStorage.getItem("quizAnswers");
-
-  if (btn && answers) {
-    btn.style.display = "block";
-  }
-
-  if (btn) {
-    btn.addEventListener("click", () => {
-      if (!answers) return;
-
-      const encoded = btoa(answers);
-      const phoneNumber = "918955024257";
-
-      const msg = encodeURIComponent(
-        "💖 I finished the quiz.\nHere are my answers:\n\n" +
-        location.origin + "/her-answers.html#data=" + encoded
-      );
-
-      window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
-
-      btn.textContent = "💖 Sent with love";
-      btn.disabled = true;
-      btn.style.opacity = "0.6";
-    });
-  }
-</script>
 </body>
 </html>
